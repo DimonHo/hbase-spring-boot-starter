@@ -1,6 +1,7 @@
 package com.wd.starter.hbasespringbootstarter;
 
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +34,18 @@ public class HbaseAutoConfiguration {
         hbaseTemplate.setConfiguration(configuration());
         hbaseTemplate.setAutoFlush(true);
         return hbaseTemplate;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(HBaseAdmin.class)
+    public HBaseAdmin hBaseAdmin() {
+        HBaseAdmin hBaseAdmin = null;
+        try {
+            hBaseAdmin = new HBaseAdmin(configuration());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return hBaseAdmin;
     }
 
     private org.apache.hadoop.conf.Configuration configuration() {
