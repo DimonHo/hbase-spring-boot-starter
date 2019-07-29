@@ -5,6 +5,12 @@
     <groupId>com.wd.starter</groupId>
     <artifactId>hbase-spring-boot-starter</artifactId>
     <version>2.0.0-SNAPSHOT</version>
+    <exclusions>
+        <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </exclusion>
+    </exclusions>
 </dependency>
 ```
 
